@@ -25,10 +25,15 @@ function App() {
       isDone: false,
     },
   ]);
+  const [showAddTask, setShowAddTask] = useState(false);
 
   //CRUD
   //Add Tasks
-  const addTask = () => {};
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]);
+  };
 
   //Delete tasks
   const deleteTask = (deleteTaskId) => {
@@ -37,12 +42,30 @@ function App() {
   };
 
   //Toggle Done
+  const toggleDone = (toggleDoneId) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === toggleDoneId ? { ...task, isDone: !task.isDone } : task
+      )
+    );
+  };
+
+  //Toggle show and hide
+  const toggleShow = () => setShowAddTask(!showAddTask);
 
   return (
     <div className="container">
-      <Header title="Task Tracker" />
-      <AddTask addTask={addTask} />
-      <Tasks tasks={tasks} deleteTask={deleteTask} />
+      <Header
+        title="Task Tracker"
+        toggleShow={toggleShow}
+        showAddTask={showAddTask}
+      />
+      {showAddTask && <AddTask addTask={addTask} />}
+      {tasks.length > 0 ? (
+        <Tasks tasks={tasks} deleteTask={deleteTask} toggleDone={toggleDone} />
+      ) : (
+        <p>"No Tasks to Show"</p>
+      )}
     </div>
   );
 }

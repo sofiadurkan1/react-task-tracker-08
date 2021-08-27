@@ -10,6 +10,9 @@ const AddTask = ({ addTask }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     addTask({ text, day, isDone: false });
+
+    setText('');
+    setDay('');
   };
 
   return (
@@ -20,6 +23,7 @@ const AddTask = ({ addTask }) => {
           id="task"
           name="text"
           type="text"
+          value={text}
           placeholder="AddTask"
           onChange={handleTextChange}
         />
@@ -30,6 +34,7 @@ const AddTask = ({ addTask }) => {
           id="day"
           name="day"
           type="text"
+          value={day}
           placeholder="Add Day & Time"
           onChange={handleDayChange}
         />
