@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import AddTask from './components/AddTask';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 
@@ -27,6 +28,7 @@ function App() {
 
   //CRUD
   //Add Tasks
+  const addTask = () => {};
 
   //Delete tasks
   const deleteTask = (deleteTaskId) => {
@@ -39,6 +41,7 @@ function App() {
   return (
     <div className="container">
       <Header title="Task Tracker" />
+      <AddTask addTask={addTask} />
       <Tasks tasks={tasks} deleteTask={deleteTask} />
     </div>
   );
