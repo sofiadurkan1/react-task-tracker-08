@@ -1,45 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import AddTask from './components/AddTask';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
+import axios from 'axios';
+
+// const initialTasks =   {
+//   id: 1,
+//   text: 'Study React Pre-Class Notes',
+//   day: 'Feb 5th at 2:30pm',
+//   isDone: false,
+// },
+// {
+//   id: 2,
+//   text: 'Feed the Dog',
+//   day: 'Feb 6th at 1:30pm',
+//   isDone: false,
+// },
+// {
+//   id: 3,
+//   text: 'Attend in-Class',
+//   day: 'Feb 7th at 20:00pm',
+//   isDone: false,
+// },
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: 'Study React Pre-Class Notes',
-      day: 'Feb 5th at 2:30pm',
-      isDone: false,
-    },
-    {
-      id: 2,
-      text: 'Feed the Dog',
-      day: 'Feb 6th at 1:30pm',
-      isDone: false,
-    },
-    {
-      id: 3,
-      text: 'Attend in-Class',
-      day: 'Feb 7th at 20:00pm',
-      isDone: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
-
+  const baseUrl = 'http://localhost:5000/tasks';
   //CRUD
+  //Fetch tasks
+  // const fetchTasks = async () => {
+  //   const res = await fetch(baseUrl);
+  //   const data = await res.json();
+  //   console.log(data);
+  //   setTasks(data);
+  // };
+
+  //Fetch tasks with axios
+  const fetchTasks = async () => {
+    //const res = await axios.get(baseUrl);
+    const { data } = await axios.get(baseUrl);
+    console.log(data);
+    setTasks(data);
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   //Add Tasks
-  const addTask = (task) => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const newTask = { id, ...task };
-    setTasks([...tasks, newTask]);
+  // const addTask = async (task) => {
+  //   const res = await fetch(baseUrl, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify(task),
+  //   });
+  //   await res.json();
+  //   fetchTasks();
+  // };
+
+  //Add Tasks with axios
+  const addTask = async (task) => {
+    const res = await axios.post(baseUrl, task);
+    fetchTasks();
+  };
+
+  // const addTask = (task) => {
+  //   const id = Math.floor(Math.random() * 10000) + 1;
+  //   const newTask = { id, ...task };
+  //   setTasks([...tasks, newTask]);
+  // };
+
+  //Delete tasks
+  const deleteTask = async (deleteTaskId) => {
+    await fetch(`${baseUrl}/${deleteTaskId}`, {
+      method: 'DELETE',
+    });
   };
 
   //Delete tasks
-  const deleteTask = (deleteTaskId) => {
-    console.log('delete', deleteTaskId);
-    setTasks(tasks.filter((task) => task.id !== deleteTaskId));
-  };
+  // const deleteTask = (deleteTaskId) => {
+  //   console.log('delete', deleteTaskId);
+  //   setTasks(tasks.filter((task) => task.id !== deleteTaskId));
+  // };
 
   //Toggle Done
   const toggleDone = (toggleDoneId) => {
