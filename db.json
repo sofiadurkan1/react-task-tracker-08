@@ -10,12 +10,12 @@
       "id": 2,
       "text": "Feed the Dog",
       "day": "Feb 6th at 1:30pm",
-      "isDone": true
+      "isDone": false
     },
     {
       "text": "Wash Car",
       "day": "Feb 10th at 3:00pm",
-      "isDone": false,
+      "isDone": true,
       "id": 3
     },
     {
@@ -23,12 +23,6 @@
       "day": "Feb 7th at 10:00pm",
       "isDone": false,
       "id": 4
-    },
-    {
-      "text": "wash car",
-      "day": "5:30pm",
-      "isDone": false,
-      "id": 5
     }
   ]
 }

@@ -75,10 +75,17 @@ function App() {
   // };
 
   //Delete tasks
+  // const deleteTask = async (deleteTaskId) => {
+  //   await fetch(`${baseUrl}/${deleteTaskId}`, {
+  //     method: 'DELETE',
+  //   });
+  //   fetchTasks();
+  // };
+
+  //Delete with axios
   const deleteTask = async (deleteTaskId) => {
-    await fetch(`${baseUrl}/${deleteTaskId}`, {
-      method: 'DELETE',
-    });
+    await axios.delete(`${baseUrl}/${deleteTaskId}`);
+    fetchTasks();
   };
 
   //Delete tasks
@@ -88,13 +95,40 @@ function App() {
   // };
 
   //Toggle Done
-  const toggleDone = (toggleDoneId) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === toggleDoneId ? { ...task, isDone: !task.isDone } : task
-      )
-    );
+  // const toggleDone = async (toggleDoneId) => {
+  //   const res = await fetch(`${baseUrl}/${toggleDoneId}`);
+  //   const task = await res.json();
+  //   console.log(task);
+  //   const updatedTask = { ...task, isDone: !task.isDone };
+
+  //   await fetch(`${baseUrl}/${toggleDoneId}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify(updatedTask),
+  //   });
+  //   fetchTasks();
+  // };
+
+  //Toggle Done with axios
+  const toggleDone = async (toggleDoneId) => {
+    const { data } = await axios.get(`${baseUrl}/${toggleDoneId}`);
+    console.log(data);
+    const updatedTask = { ...data, isDone: !data.isDone };
+
+    await axios.put(`${baseUrl}/${toggleDoneId}`, updatedTask);
+    fetchTasks();
   };
+
+  //Toggle Done
+  // const toggleDone = (toggleDoneId) => {
+  //   setTasks(
+  //     tasks.map((task) =>
+  //       task.id === toggleDoneId ? { ...task, isDone: !task.isDone } : task
+  //     )
+  //   );
+  // };
 
   //Toggle show and hide
   const toggleShow = () => setShowAddTask(!showAddTask);
